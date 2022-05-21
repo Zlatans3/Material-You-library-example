@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Typography
 
@@ -45,6 +46,7 @@ fun Greeting(name: String) {
     }
     BalanceInfo()
     ButtonLayout()
+        
     }
 
 }
@@ -73,13 +75,24 @@ fun BalanceInfo() {
      modifier = Modifier
          .fillMaxWidth()
          .padding(top = 16.dp)
-     .height(32.dp),
+         .height(150.dp)
+         ,
      shape = RoundedCornerShape(8.dp)
  ) {
-     Text("Hello World",
-         modifier = Modifier.padding(top = 5.dp),
-     style = TextStyle(color = MaterialTheme.colorScheme.onSecondaryContainer)
-     )
+     Box(modifier = Modifier
+         .fillMaxSize()
+         .padding(start = 16.dp)
+
+     ){
+         Column {
+
+         Text(text = "Test",
+             color = MaterialTheme.colorScheme.onSecondaryContainer,
+             fontSize = 30.sp
+         )
+         Text(text = "This is more test")
+         }
+     }
  }
 
 }
