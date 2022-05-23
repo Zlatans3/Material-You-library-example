@@ -1,5 +1,7 @@
 package com.example.myapplication
 import android.os.Bundle
+import android.widget.ScrollView
+import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -7,19 +9,22 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AppBarDefaults
-import androidx.compose.material.Card
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
+import androidx.compose.material.Shapes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +35,9 @@ import com.example.myapplication.ui.theme.Typography
 
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +53,8 @@ class MainActivity : ComponentActivity() {
                     Column {
                     TopNavBar()
                     Greeting("Zlatan")
+                        Spacer(modifier = Modifier.height(120.dp))
+                        Navbar()
 
                     }
 
@@ -56,15 +66,32 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
+fun Greeting(name: String) {
+    Column (modifier = Modifier.padding(16.dp)) {
+        Box()
+        {
+            Text(text = "Hello $name!",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onBackground)
+        }
+        val painter = painterResource(id = R.drawable.flowers_image)
+        val description = "Card image"
+        BalanceInfo(painter = painter, contentDescription = description)
+        ButtonLayout()
+    }
+
+}
+
+@Composable
 fun TopNavBar(){
- Column { TopAppBar(
+ Column() { TopAppBar(
      title = {
          Text(text = "AppBar", color = MaterialTheme.colorScheme.onPrimary)
      },
          backgroundColor = MaterialTheme.colorScheme.primary,
      navigationIcon = {
+         Icon(Icons.Filled.Menu, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimary)
 
-         R.drawable.ic_baseline_menu_24
      }
      )
  }
@@ -72,22 +99,29 @@ fun TopNavBar(){
 
 
 
-@Composable
-fun Greeting(name: String) {
-    Column (modifier = Modifier.padding(16.dp)) {
-    Box()
-    {
-        Text(text = "Hello $name!",
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onBackground)
-    }
-       val painter = painterResource(id = R.drawable.flowers_image)
-       val description = "Card image"
-       BalanceInfo(painter = painter, contentDescription = description)
-    ButtonLayout()
-    }
 
+
+@Composable
+fun Navbar(){
+    var selectedItem by remember { mutableStateOf(0) }
+    val items = listOf("Flowers", "Pots", "Settings", "Inbox")
+
+    NavigationBar (modifier = Modifier.clip(MaterialTheme.shapes.medium)) {
+        items.forEachIndexed { index, item ->
+            NavigationBarItem(
+                icon = { Icon(Icons.Filled.Favorite, contentDescription = null)  },
+                label = { Text(item) },
+                selected = selectedItem == index,
+                onClick = { selectedItem = index },
+
+            )
+        }
+    }
 }
+
+
+
+
 
 @Composable
 fun ButtonLayout() {
@@ -98,7 +132,7 @@ fun ButtonLayout() {
             .padding(top = 16.dp)
             .height(60.dp)
         ,
-        shape = RoundedCornerShape(8.dp),
+        shape = MaterialTheme.shapes.medium,
 
         ) {
         Text(text = "SEND")
@@ -157,6 +191,8 @@ fun DefaultPreview() {
  Column {
      TopNavBar()
     Greeting(name = "Zlatan")
+     Spacer(modifier = Modifier.height(120.dp))
+     Navbar()
 
  }
 

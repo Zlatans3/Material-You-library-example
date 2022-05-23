@@ -53,6 +53,7 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
     implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.4.2'
 
     testImplementation 'junit:junit:4.13.2'
 
@@ -73,4 +74,7 @@ dependencies {
 
     // UI Tests
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.1.1")
+    def nav_version = "2.4.2"
+
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 }
